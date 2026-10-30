@@ -347,6 +347,147 @@
     border-radius: 4px;
     font-weight: 600;
   }
+  
+/* =================================
+   싹틔움 - 파스텔 오션 디자인
+================================= */
+
+:root {
+  --ink: #365873;
+  --muted: #7895aa;
+  --green: #55a69f;
+  --green-light: #d9efed;
+  --pale: #edf7fb;
+  --line: #d7e8f1;
+  --cream: #f3f9fc;
+  --gold: #e8c88e;
+}
+
+body {
+  background: #dcecf8;
+  color: var(--ink);
+  padding-bottom: 0;
+}
+
+.wrap {
+  max-width: none;
+  width: 100%;
+  padding: 18px 3%;
+}
+
+/* 상단 메뉴 */
+.top-nav {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.8);
+  border-radius: 28px;
+  box-shadow: 0 8px 30px rgba(91,130,165,0.10);
+}
+
+.nav-brand {
+  color: #479b98;
+}
+
+.tab-btn {
+  color: #587b98;
+}
+
+.tab-btn.active {
+  background: #d8eeef;
+  color: #438f90;
+  box-shadow: none;
+}
+
+/* 포인트 대시보드 */
+.dashboard-status {
+  background: rgba(255,255,255,0.78);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.8);
+}
+
+.stat-card {
+  background: rgba(225,243,247,0.8);
+  border-color: #dcecf2;
+}
+
+.stat-val {
+  color: #4b9e9c;
+}
+
+/* 메인 배경 */
+.home-page {
+  position: relative;
+  min-height: 850px;
+  margin: 0 -3.2%;
+  padding: 90px 5% 60px;
+  text-align: left;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(231,244,255,0.85),
+      rgba(231,244,255,0.12) 75%
+    ),
+    url('./images/main-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 26px;
+  overflow: hidden;
+}
+
+.home-page .eyebrow {
+  color: #668eaa;
+}
+
+.home-page h1 {
+  color: #365e83;
+  font-family: Georgia, "Malgun Gothic", serif;
+  font-size: clamp(34px, 5vw, 58px);
+  line-height: 1.35;
+  margin: 20px 0;
+}
+
+.home-page > p {
+  color: #527793;
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+/* 기존 Canvas 숨기기 */
+.island-canvas-container {
+  display: none;
+}
+
+/* 시작 버튼 */
+.home-page .primary {
+  background: #55a69f;
+  border-radius: 30px;
+  box-shadow: 0 5px 18px rgba(65,145,144,0.2);
+  padding: 15px 28px;
+}
+
+@media (max-width: 650px) {
+  .wrap {
+    padding: 10px;
+  }
+
+  .top-nav {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .nav-tabs {
+    justify-content: center;
+  }
+
+  .home-page {
+    margin: 0 -10px;
+    min-height: 700px;
+    padding: 70px 24px 40px;
+    background-position: center;
+  }
+}
+
 </style>
 </head>
 <body>
