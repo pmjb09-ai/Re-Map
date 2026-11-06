@@ -641,6 +641,10 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
   .forest-tools .hint { margin: 8px 0; }
 }
 
+.tree-level-notice { margin: 0 0 18px; padding: 16px; border-radius: 16px; border: 1px solid #a7ddd1; background: linear-gradient(120deg,#e4f8ee,#e6f3ff); color: #2c7164; overflow-wrap: anywhere; }
+.tree-level-notice strong { display: block; font-size: 20px; }
+.tree-level-notice p { margin: 7px 0 0; font-size: 14px; line-height: 1.6; }
+@media (prefers-reduced-motion: reduce) { .tree-level-notice { animation: none; } }
 </style>
 </head>
 <body>
@@ -793,6 +797,10 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
       </section>
 
       <section id="result" class="panel" aria-live="polite">
+        <div id="treeLevelNotice" class="tree-level-notice" hidden>
+          <strong id="treeLevelTitle"></strong>
+          <p id="treeLevelDetail"></p>
+        </div>
         <div class="result-head">
           <div id="resultIcon" class="result-icon">♻️</div>
           <div>
@@ -1158,6 +1166,7 @@ function updateUI() {
 function addRecycleAction() {
   state.recycleCount++;
   const progress = state.recycleCount % 5;
+  const currentTree = treeTypes[state.selectedTreeType] || treeTypes.apple;
   
   if (progress === 0) {
     const currentTree = treeTypes[state.selectedTreeType];
@@ -1166,6 +1175,17 @@ function addRecycleAction() {
     alert(`🎉 축하합니다! ${currentTree.name}를 모두 키웠습니다!\n\n🎁 혜택:\n• 150 에코 포인트 적립!\n• [${currentTree.name}] 나무가 숲 인벤토리에 추가되었습니다.`);
   }
   updateUI();
+  const notice = document.querySelector('#treeLevelNotice');
+  document.querySelector('#treeLevelTitle').textContent = progress === 0
+    ? '🎉 나무 성장 완료!' : '🌱 나무 레벨업!';
+  document.querySelector('#treeLevelDetail').textContent = progress === 0
+    ? `${currentTree.name} 실천 5/5 · 성장률 100% · 150pt와 나무 1그루 획득! 다음 나무는 새싹부터 시작해요.`
+    : `${currentTree.name} 성장 +1 · 실천 ${progress}/5 · 성장률 ${progress * 20}% · 완성까지 ${5 - progress}회 남았어요!`;
+  notice.hidden = false;
+  notice.animate?.([
+    { opacity: 0, transform: 'translateY(8px)' },
+    { opacity: 1, transform: 'translateY(0)' }
+  ], { duration: 350, easing: 'ease-out' });
 }
 
 function renderInventory() {
