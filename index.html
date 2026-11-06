@@ -691,6 +691,10 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
 
     <!-- 2. 나무 선택 및 성장 화면 -->
     <div id="treePage" hidden>
+<div id="treeLevelNotice" class="tree-level-notice" hidden>
+          <strong id="treeLevelTitle"></strong>
+          <p id="treeLevelDetail"></p>
+        </div>
       <header>
         <div class="eyebrow">MY ECO FOREST</div>
         <h1>나무 키우기</h1>
@@ -797,10 +801,6 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
       </section>
 
       <section id="result" class="panel" aria-live="polite">
-        <div id="treeLevelNotice" class="tree-level-notice" hidden>
-          <strong id="treeLevelTitle"></strong>
-          <p id="treeLevelDetail"></p>
-        </div>
         <div class="result-head">
           <div id="resultIcon" class="result-icon">♻️</div>
           <div>
@@ -812,6 +812,8 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
         <strong>이렇게 배출해요</strong>
         <ol id="steps" class="steps"></ol>
         <div id="caution" class="warning"></div>
+        <p class="hint">안내에 따라 분리배출한 뒤 완료 버튼을 눌러 나무에 영양분을 주세요.</p>
+        <button id="completeRecycleBtn" class="btn primary" disabled>분리배출 완료 · 나무 키우기 🌱</button>
       </section>
     </div>
 
@@ -1739,6 +1741,22 @@ const manual = document.querySelector('#manual');
 
 let selectedFile = null;
 let classifierPromise = null;
+let recycleResultReady = false;
+const completeRecycleBtn = document.querySelector('#completeRecycleBtn');
+
+function resetRecycleCompletion() {
+  recycleResultReady = false;
+  completeRecycleBtn.disabled = true;
+  resultBox.style.display = 'none';
+}
+
+completeRecycleBtn.addEventListener('click', () => {
+  if (!recycleResultReady) return;
+  recycleResultReady = false;
+  completeRecycleBtn.disabled = true;
+  addRecycleAction();
+  switchPage('tree');
+});
 
 for (const [key, val] of Object.entries(items)) {
   const opt = document.createElement('option');
@@ -1748,6 +1766,7 @@ for (const [key, val] of Object.entries(items)) {
 }
 
 fileInput.addEventListener('change', () => {
+  resetRecycleCompletion();
   selectedFile = fileInput.files?.[0] || null;
   if (!selectedFile) return;
   preview.src = URL.createObjectURL(selectedFile);
@@ -1782,11 +1801,13 @@ function showResult(key, scoreText='') {
   resultBox.scrollIntoView({ behavior:'smooth', block:'start' });
   manual.value = key;
 
-  addRecycleAction();
+  recycleResultReady = true;
+  completeRecycleBtn.disabled = false;
 }
 
 analyzeBtn.addEventListener('click', async () => {
   if (!selectedFile) return;
+  resetRecycleCompletion();
   analyzeBtn.disabled = true;
   setStatus('AI 모델을 준비하고 있습니다...');
   
@@ -1805,7 +1826,7 @@ analyzeBtn.addEventListener('click', async () => {
     const score = typeof best.score === 'number' ? best.score : 0;
     const pct = Math.round(score * 100);
     
-    showResult(found[0], `AI 정확도: ${pct}% · 나무에 영양분 지급 완료! 🌿`);
+    showResult(found[0], `AI 정확도: ${pct}% · 배출 방법을 확인하고 완료 버튼을 눌러주세요. 🌿`);
     setStatus('분석 완료! 올바른 배출법을 확인하세요.');
   } catch (err) {
     setStatus('자동 분석 실패. 직접 목록에서 선택해 주세요.');
@@ -1819,7 +1840,7 @@ document.querySelector('#showManual').addEventListener('click', () => {
     setStatus('먼저 종류를 선택하세요.');
     return;
   }
-  showResult(manual.value, '직접 선택 · 나무에 영양분 지급 완료! 🌿');
+  showResult(manual.value, '직접 선택 · 배출 방법을 확인하고 완료 버튼을 눌러주세요. 🌿');
 });
 
 
