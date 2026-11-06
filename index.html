@@ -645,6 +645,11 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
 .tree-level-notice strong { display: block; font-size: 20px; }
 .tree-level-notice p { margin: 7px 0 0; font-size: 14px; line-height: 1.6; }
 @media (prefers-reduced-motion: reduce) { .tree-level-notice { animation: none; } }
+#guidePage { padding-bottom: 140px; }
+.complete-recycle-actions { position: fixed; left: 12px; right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); z-index: 200; max-width: 620px; margin: 0 auto; padding: 10px 14px 14px; border-radius: 18px; border: 1px solid #c2dfdf; background: rgba(255,255,255,.96); box-shadow: 0 6px 26px rgba(54,88,115,.18); }
+.complete-recycle-actions .hint { margin: 0 0 5px; text-align: center; }
+.complete-recycle-actions .primary { margin-top: 0; min-height: 48px; }
+.complete-recycle-actions button:disabled { cursor: not-allowed; opacity: .65; }
 </style>
 </head>
 <body>
@@ -813,8 +818,12 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
         <ol id="steps" class="steps"></ol>
         <div id="caution" class="warning"></div>
         <p class="hint">안내에 따라 분리배출한 뒤 완료 버튼을 눌러 나무에 영양분을 주세요.</p>
-        <button id="completeRecycleBtn" class="btn primary" disabled>분리배출 완료 · 나무 키우기 🌱</button>
+
       </section>
+      <div class="complete-recycle-actions">
+        <p class="hint" id="completeRecycleHint" aria-live="polite">사진 분석 또는 배출법 확인 후 누를 수 있어요.</p>
+        <button id="completeRecycleBtn" class="btn primary" disabled>분리배출 완료 · 나무 키우기 🌱</button>
+      </div>
     </div>
 
     <!-- 4. 친환경 에코 상점 화면 -->
