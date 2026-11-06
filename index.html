@@ -650,6 +650,95 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
 .complete-recycle-actions .hint { margin: 0 0 5px; text-align: center; }
 .complete-recycle-actions .primary { margin-top: 0; min-height: 48px; }
 .complete-recycle-actions button:disabled { cursor: not-allowed; opacity: .65; }
+
+/* 반응형 숲: 캔버스와 도구창이 각각 공간을 가져 서로 가리지 않습니다. */
+body:has(#forestPage:not([hidden])) .wrap {
+  height: 100vh; height: 100dvh; min-height: 0;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+body:has(#forestPage:not([hidden])) .top-nav,
+body:has(#forestPage:not([hidden])) .dashboard-status { flex: 0 0 auto; }
+body:has(#forestPage:not([hidden])) .dashboard-status { padding: 8px 16px; }
+body:has(#forestPage:not([hidden])) .stat-card { padding: 6px 12px; }
+#forestPage:not([hidden]) {
+  position: relative; inset: auto; width: 100%; height: auto;
+  flex: 1 1 0; min-height: 0; padding: 0;
+  display: flex; flex-direction: column;
+}
+#forestPage > header {
+  position: static; flex: 0 0 auto; padding: 2px 16px 8px;
+  text-shadow: none;
+}
+#forestPage > header h1 { margin: 0; font-size: 22px; }
+#forestPage > header .eyebrow, #forestPage > header p { display: none; }
+#forestPage .forest-stage {
+  position: relative; inset: auto; flex: 1 1 0; min-height: 0;
+  display: grid; grid-template-columns: minmax(0,1fr) 280px;
+  grid-template-rows: minmax(0,1fr); overflow: hidden;
+}
+#forestPage .forest-canvas-wrapper {
+  position: relative; inset: auto; min-width: 0; min-height: 0;
+  width: 100%; height: 100%; background-position: center bottom;
+}
+.forest-dock {
+  min-width: 0; min-height: 0; overflow: auto;
+  padding: 12px; background: rgba(248,253,250,.98);
+  border-left: 1px solid #d7e8df;
+}
+.forest-tools {
+  position: static; inset: auto; width: 100%; max-height: none;
+  overflow: visible; padding: 0; border: 0; border-radius: 0;
+  background: none; backdrop-filter: none; box-shadow: none;
+}
+.forest-tools summary {
+  min-height: 44px; padding: 10px 4px; line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.forest-tools .tree-inventory { gap: 8px; }
+.forest-tools .inv-item {
+  min-height: 48px; max-width: 100%; font: inherit; font-size: 13px;
+  padding: 8px 10px; color: var(--ink); touch-action: manipulation;
+}
+.forest-actions { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1fr); gap: 8px; }
+.forest-actions .btn { min-width: 0; min-height: 44px; white-space: normal; touch-action: manipulation; }
+#forestSelection { margin: 6px 0 10px; font-size: 12px; line-height: 1.5; }
+@media (min-width: 900px) {
+  .forest-tools > summary { display: none; }
+  .forest-tools:not([open]) > :not(summary) { display: block; }
+  .forest-tools:not([open]) > .tree-inventory { display: flex; }
+}
+@media (max-width: 899px) {
+  #forestPage .forest-stage { grid-template-columns: minmax(0,1fr); grid-template-rows: minmax(0,1fr) auto; }
+  .forest-dock { padding: 6px 12px max(8px, env(safe-area-inset-bottom)); max-height: 40dvh; border-left: 0; border-top: 1px solid #d7e8df; }
+  .forest-tools[open] .tree-inventory { max-height: 100px; overflow: auto; }
+  .forest-tools > .hint { display: none; }
+  #forestSelection { margin: 0 0 5px; }
+  .forest-tools summary { min-height: 40px; padding: 8px 2px; font-size: 13px; }
+}
+@media (max-width: 650px) {
+  .top-nav, body:has(#homePage:not([hidden])) .top-nav { padding: 6px 10px; gap: 4px; }
+  .nav-brand { font-size: 16px; }
+  .nav-tabs { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 3px; width: 100%; }
+  .tab-btn, body:has(#homePage:not([hidden])) .tab-btn { min-width: 0; min-height: 44px; padding: 5px 2px; font-size: 11px; line-height: 1.3; white-space: normal; }
+  body:has(#forestPage:not([hidden])) .dashboard-status { gap: 6px; padding: 6px 10px; }
+  body:has(#forestPage:not([hidden])) .stat-card { min-width: 0; padding: 5px 10px; }
+  body:has(#forestPage:not([hidden])) .stat-label { font-size: 11px; margin-bottom: 2px; }
+  body:has(#forestPage:not([hidden])) .stat-val { font-size: 16px; }
+  #forestPage > header { padding: 0 12px 5px; }
+  #forestPage > header h1 { font-size: 19px; }
+}
+@media (max-height: 500px) and (min-width: 600px) {
+  body:has(#forestPage:not([hidden])) .nav-brand,
+  #forestPage > header { display: none; }
+  body:has(#forestPage:not([hidden])) .top-nav { padding: 3px 10px; gap: 0; }
+  body:has(#forestPage:not([hidden])) .dashboard-status { padding: 3px 10px; }
+  body:has(#forestPage:not([hidden])) .stat-card { display: flex; align-items: center; gap: 8px; padding: 4px 10px; }
+  body:has(#forestPage:not([hidden])) .stat-label { margin: 0; }
+  body:has(#forestPage:not([hidden])) .stat-val { font-size: 15px; }
+  #forestPage .forest-stage { grid-template-columns: minmax(0,1fr) 240px; grid-template-rows: minmax(0,1fr); }
+  .forest-dock { max-height: none; padding: 6px 10px; border-top: 0; }
+}
+
 </style>
 </head>
 <body>
@@ -760,16 +849,18 @@ body:has(#forestPage:not([hidden])) footer { display: none; }
         <div class="forest-canvas-wrapper">
           <canvas id="forestCanvas" tabindex="0" aria-label="나의 숲. 나무를 눌러 선택하고 드래그로 이동하세요. 선택 후 방향키로 이동, Delete로 회수할 수 있습니다." style="touch-action:none;"></canvas>
         </div>
-        <details class="forest-tools" open>
-          <summary>🌳 나무 선택 · 관리</summary>
+        <aside class="forest-dock">
+        <details class="forest-tools" id="forestTools">
+          <summary id="forestToolsSummary">🌳 심을 나무 선택</summary>
           <p class="hint">나무를 골라 잔디밭에 심고, 드래그해서 옮기세요.</p>
           <div class="tree-inventory" id="treeInventoryList"></div>
+        </details>
           <p id="forestSelection" class="hint" aria-live="polite">심은 나무를 누르면 선택됩니다.</p>
           <div class="forest-actions">
             <button id="recoverTreeBtn" class="btn secondary" disabled>선택한 나무 회수</button>
             <button id="clearForestBtn" class="btn secondary">모두 회수</button>
           </div>
-        </details>
+        </aside>
       </section>
     </div>
 
@@ -1199,6 +1290,13 @@ function addRecycleAction() {
   ], { duration: 350, easing: 'ease-out' });
 }
 
+function updateForestToolsSummary() {
+  const label = treeTypes[state.activeInvIcon]?.name;
+  document.querySelector('#forestToolsSummary').textContent = label
+    ? '🌳 ' + label + ' 선택됨 · 나무 바꾸기'
+    : '🌳 보유 나무 없음 · 나무 키우기로 획득';
+}
+
 function renderInventory() {
   const invContainer = document.querySelector('#treeInventoryList');
   invContainer.innerHTML = '';
@@ -1206,6 +1304,7 @@ function renderInventory() {
   if (state.inventory.length === 0) {
     invContainer.innerHTML = `<span style="font-size:12px; color:var(--muted);">보유한 나무가 없습니다. 분리배출 5회 달성으로 나무를 얻어보세요!</span>`;
     state.activeInvIcon = null;
+    updateForestToolsSummary();
     return;
   }
 
@@ -1213,11 +1312,13 @@ function renderInventory() {
     state.activeInvIcon = state.inventory[0];
   }
 
+  updateForestToolsSummary();
   const counts = {};
   state.inventory.forEach(type => counts[type] = (counts[type] || 0) + 1);
 
   Object.keys(counts).forEach(type => {
-    const item = document.createElement('div');
+    const item = document.createElement('button');
+    item.type = 'button';
     item.className = `inv-item ${state.activeInvIcon === type ? 'active' : ''}`;
     
     // Thumbnail Canvas
@@ -1237,6 +1338,9 @@ function renderInventory() {
     item.addEventListener('click', () => {
       state.activeInvIcon = type;
       renderInventory();
+      if (window.matchMedia?.('(max-width: 899px)').matches) {
+        document.querySelector('#forestTools').open = false;
+      }
     });
     invContainer.appendChild(item);
   });
@@ -1471,7 +1575,7 @@ function initForestCanvas() {
   }
 
   function treeSize(tree) {
-    const height = Math.max(54, Math.min(128, canvas.height * 0.32));
+    const height = Math.max(40, Math.min(120, canvas.height * 0.25, canvas.width * 0.24));
     const sprite = treeSprites[tree.icon];
     const ratio = sprite?.naturalWidth > 0 ? sprite.naturalWidth / sprite.naturalHeight : 0.7;
     return {height, width: height * ratio};
@@ -1522,6 +1626,11 @@ function initForestCanvas() {
     if (canvas.height !== height) canvas.height = height;
   }
 
+  // 도구창 접기/펼치기, 화면 회전, 브라우저 주소창 변화에도 실제 숲 크기로 갱신합니다.
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(resize).observe(canvas.parentElement);
+  }
+  document.querySelector('#forestTools').addEventListener('toggle', resize);
   window.addEventListener('resize', resize);
   resize();
   drawForest();
@@ -1538,7 +1647,7 @@ function initForestCanvas() {
       const size = treeSize(tree);
       const dx = (p.x - tree.x) / 100 * canvas.width;
       const dy = (p.y - tree.y) / 100 * canvas.height;
-      return Math.abs(dx) <= size.width / 2 + 5 && dy >= -size.height - 5 && dy <= 8;
+      return Math.abs(dx) <= Math.max(22, size.width / 2 + 5) && dy >= -size.height - 8 && dy <= 12;
     });
   }
 
@@ -1903,6 +2012,12 @@ document.querySelector('#startGrowTree').addEventListener('click', () => switchP
 document.querySelector('#goRecycleBtn').addEventListener('click', () => switchPage('guide'));
 
 // 앱 초기화 실행
+const forestWideLayout = window.matchMedia?.('(min-width: 900px)');
+document.querySelector('#forestTools').open = Boolean(forestWideLayout?.matches);
+forestWideLayout?.addEventListener('change', e => {
+  document.querySelector('#forestTools').open = e.matches;
+});
+
 window.onload = () => {
   updateUI();
   renderShop();
